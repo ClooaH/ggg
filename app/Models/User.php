@@ -30,4 +30,9 @@ class User extends Authenticatable
         'password'
     ];
 
+    public function game()
+    {
+        return $this->hasOne(Game::class);
+    }
+
 }
