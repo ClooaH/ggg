@@ -18,6 +18,6 @@ class Game extends Model
 
     public function question()
     {
-        return $this;
+        return $this->hasOne(Question::class);
     }
 }

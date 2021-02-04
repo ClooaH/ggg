@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Game;
+use App\Models\Question;
 use Illuminate\Support\Facades\Auth;
 
 class GameController extends Controller
@@ -19,14 +20,14 @@ class GameController extends Controller
 
             $game = Game::create([
                 'user_id' => Auth()->user()->id,
-                'question_id' => 0
+                'question_id' => Question::first()->id
             ]);
 
-        } else {
-            dd($game);
         }
 
-        return view('dashboard');
+        $question = Question::find($game->question_id);
+
+        return view('dashboard', ['question' => $question]);
     }
 
     public function store(User $user)
