@@ -15,6 +15,12 @@
                     @endif
                 </div>
             </div>
+            <form action="/dashboard" method="POST">
+                @csrf
+                <input type="hidden" name="question_id" id="question_id" value="{{ $question->id }}">
+                <input type="text" name="answer" id="answer">
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
         </div>
     </div>
 </x-app-layout>

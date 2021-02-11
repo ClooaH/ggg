@@ -9,6 +9,8 @@ class Question extends Model
 {
     use HasFactory;
 
+    protected $fillable = ['title', 'body', 'answer'];
+
     public function game() {
         return $this->belongsToMany(Game::class);
     }

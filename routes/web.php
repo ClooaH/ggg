@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\GameController;
+use GuzzleHttp\Middleware;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -17,6 +18,8 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::post('/dashboard', [GameController::class, 'check'])->middleware(['auth']);
 
 Route::get('/dashboard', [GameController::class, 'show'])->middleware(['auth'])->name('dashboard');
 

@@ -37,4 +37,19 @@ class GameController extends Controller
             'question_id' => 0
         ]);
     }
+
+    public function check(Request $request)
+    {   
+
+        $answer = Question::find($request->question_id)->answer;
+
+        if($request->answer == $answer) {
+            dd('Rätt svar!');
+        } 
+       // Om fel hämta errorcodes
+       // Return
+       // Om svaret är rätt, game::update questionId nästa fråga
+       // Hämta nästa fråga
+       // Retunera
+    }
 }
