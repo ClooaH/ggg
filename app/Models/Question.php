@@ -14,4 +14,8 @@ class Question extends Model
     public function game() {
         return $this->belongsToMany(Game::class);
     }
+
+    public function errorCodes() {
+        return $this->belongsToMany(ErrorCode::class);
+    }
 }
