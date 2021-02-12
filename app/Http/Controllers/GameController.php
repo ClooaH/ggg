@@ -40,16 +40,22 @@ class GameController extends Controller
 
     public function check(Request $request)
     {   
-        $question = Question::find($request->question_id);
+        $id = $request->question_id;
+        $question = Question::find($id);
         $answer = $question->answer;
         $user = auth()->user();
 
         if($request->answer == $answer) {
-            dd('Rätt svar!');
+            $game = $user->game()->first();
+            $newId = $id + 1;
+            $game->question_id = $newId;
+            $game->save();
+            $question = Question::find($newId);
+            return view('dashboard', ['question' => $question]);
         } else {
-            dd($question->errorCodes()->pluck('errorCode')[0]);
+            $errors = $question->errorCodes()->pluck('errorCode');
+            return view('dashboard', ['question' => $question, 'errorCodes' => $errors]);
         }
-       // Om fel hämta errorcodes
        // Return
        // Om svaret är rätt, game::update questionId nästa fråga
        // Hämta nästa fråga

@@ -11,10 +11,15 @@
                 <div class="p-6 bg-white border-b border-gray-200">
                     You're logged in!
                     @if ($question)
-                        QUESTION! -> {{ $question->body }}
+                        QUESTION! -> {{ $question->question }}
                     @endif
                 </div>
             </div>
+            @if ($errorCodes ?? '')
+                @foreach ($errorCodes as $error)
+                    <p>{{ $error }}</p>
+                @endforeach
+            @endif
             <form action="/dashboard" method="POST">
                 @csrf
                 <input type="hidden" name="question_id" id="question_id" value="{{ $question->id }}">
