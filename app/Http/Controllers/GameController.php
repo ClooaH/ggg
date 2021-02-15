@@ -45,20 +45,24 @@ class GameController extends Controller
         $answer = $question->answer;
         $user = auth()->user();
 
-        if($request->answer == $answer) {
-            $game = $user->game()->first();
-            $newId = $id + 1;
-            $game->question_id = $newId;
-            $game->save();
-            $question = Question::find($newId);
-            return view('dashboard', ['question' => $question]);
+        $questionsCount = Question::count();
+
+        if($id < $questionsCount) {
+            if($request->answer == $answer) {
+                $newId = $id + 1;
+
+                $game = $user->game()->first();
+                $game->question_id = $newId;
+                $game->save();
+                $question = Question::find($newId);
+
+                return view('dashboard', ['question' => $question]);
+            } else {
+                $errors = $question->errorCodes()->pluck('errorCode');
+                return view('dashboard', ['question' => $question, 'errorCodes' => $errors]);
+            }
         } else {
-            $errors = $question->errorCodes()->pluck('errorCode');
-            return view('dashboard', ['question' => $question, 'errorCodes' => $errors]);
+            dd("epic gamer win");
         }
-       // Return
-       // Om svaret är rätt, game::update questionId nästa fråga
-       // Hämta nästa fråga
-       // Retunera
     }
 }
