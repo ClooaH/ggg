@@ -18,4 +18,8 @@ class Question extends Model
     public function errorCodes() {
         return $this->belongsToMany(ErrorCode::class);
     }
+
+    public function leads() {
+        return $this->belongsToMany(Lead::class);
+    }
 }
