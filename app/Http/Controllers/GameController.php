@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\BsText;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Game;
@@ -28,10 +29,12 @@ class GameController extends Controller
 
         $question = Question::find($game->question_id);
         $leads = $question->leads()->get()->pluck('lead');
+        $fillerText = BsText::all();
 
         return view('dashboard', [
             'question' => $question,
-            'leads' => $leads
+            'leads' => $leads,
+            'texts' => $fillerText
         ]);
     }
 
@@ -51,6 +54,8 @@ class GameController extends Controller
 
         $guess = $request->answer;
         $guess = Str::lower($guess);
+
+        $fillerText = BsText::all();
 
         $user = auth()->user();
 
@@ -72,14 +77,16 @@ class GameController extends Controller
 
                 return view('dashboard', [
                     'question' => $question,
-                    'leads' => $leads
+                    'leads' => $leads,
+                    'texts' => $fillerText
                 ]);
             } else {
                 $errors = $question->errorCodes()->pluck('errorCode');
                 return view('dashboard', [
                     'question' => $question, 
                     'errorCodes' => $errors, 
-                    'leads' => $leads
+                    'leads' => $leads,
+                    'texts' => $fillerText
                 ]);
             }
         }

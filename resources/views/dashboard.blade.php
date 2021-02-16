@@ -15,7 +15,9 @@
                     @endif
                 </div>
             </div>
+            <p>{{ $texts }}</p>
             @foreach ($leads as $lead)
+  
                 <p>{{ $lead }}</p>
             @endforeach
 

@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateFillerText extends Migration
+class CreateBsTextsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,7 @@ class CreateFillerText extends Migration
      */
     public function up()
     {
-        Schema::create('fillerText', function (Blueprint $table) {
+        Schema::create('bs_texts', function (Blueprint $table) {
             $table->id();
             $table->string('body');
             $table->timestamps();
@@ -27,6 +27,6 @@ class CreateFillerText extends Migration
      */
     public function down()
     {
-        //
+        Schema::dropIfExists('bs_texts');
     }
 }
