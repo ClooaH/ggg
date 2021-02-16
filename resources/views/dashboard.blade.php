@@ -15,11 +15,18 @@
                     @endif
                 </div>
             </div>
+            @foreach ($leads as $lead)
+                <p>{{ $lead }}</p>
+            @endforeach
+
             @if ($errorCodes ?? '')
                 @foreach ($errorCodes as $error)
                     <p>{{ $error }}</p>
                 @endforeach
             @endif
+
+
+
             <form action="/dashboard" method="POST">
                 @csrf
                 <input type="hidden" name="question_id" id="question_id" value="{{ $question->id }}">

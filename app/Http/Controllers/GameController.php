@@ -7,6 +7,7 @@ use App\Models\User;
 use App\Models\Game;
 use App\Models\Question;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Str;
 
 class GameController extends Controller
 {
@@ -26,8 +27,12 @@ class GameController extends Controller
         }
 
         $question = Question::find($game->question_id);
+        $leads = $question->leads()->get()->pluck('lead');
 
-        return view('dashboard', ['question' => $question]);
+        return view('dashboard', [
+            'question' => $question,
+            'leads' => $leads
+        ]);
     }
 
     public function store(User $user)
@@ -43,26 +48,40 @@ class GameController extends Controller
         $id = $request->question_id;
         $question = Question::find($id);
         $answer = $question->answer;
+
+        $guess = $request->answer;
+        $guess = Str::lower($guess);
+
         $user = auth()->user();
 
         $questionsCount = Question::count();
 
-        if($id < $questionsCount) {
-            if($request->answer == $answer) {
+        if($id <= $questionsCount) {
+            $leads = $question->leads()->get()->pluck('lead');
+            if($guess == $answer) {
                 $newId = $id + 1;
+                if($newId > $questionsCount) {
+                    dd('Epic win');
+                }
 
                 $game = $user->game()->first();
                 $game->question_id = $newId;
                 $game->save();
                 $question = Question::find($newId);
+                $leads = $question->leads()->get()->pluck('lead');
 
-                return view('dashboard', ['question' => $question]);
+                return view('dashboard', [
+                    'question' => $question,
+                    'leads' => $leads
+                ]);
             } else {
                 $errors = $question->errorCodes()->pluck('errorCode');
-                return view('dashboard', ['question' => $question, 'errorCodes' => $errors]);
+                return view('dashboard', [
+                    'question' => $question, 
+                    'errorCodes' => $errors, 
+                    'leads' => $leads
+                ]);
             }
-        } else {
-            dd("epic gamer win");
         }
     }
 }
