@@ -30,11 +30,13 @@ class GameController extends Controller
         $question = Question::find($game->question_id);
         $leads = $question->leads()->get()->pluck('lead');
         $fillerText = BsText::all();
+        $randomNumbers = array(rand(0, 4), rand(0, 4), rand(0, 4), rand(0, 4), rand(0, 4));
 
         return view('dashboard', [
             'question' => $question,
             'leads' => $leads,
-            'texts' => $fillerText
+            'texts' => $fillerText,
+            'randNums' => $randomNumbers
         ]);
     }
 
@@ -56,6 +58,7 @@ class GameController extends Controller
         $guess = Str::lower($guess);
 
         $fillerText = BsText::all();
+        $randomNumbers = array(rand(0, 4), rand(0, 4), rand(0, 4), rand(0, 4), rand(0, 4));
 
         $user = auth()->user();
 
@@ -78,7 +81,8 @@ class GameController extends Controller
                 return view('dashboard', [
                     'question' => $question,
                     'leads' => $leads,
-                    'texts' => $fillerText
+                    'texts' => $fillerText,
+                    'randNums' => $randomNumbers
                 ]);
             } else {
                 $errors = $question->errorCodes()->pluck('errorCode');
@@ -86,7 +90,8 @@ class GameController extends Controller
                     'question' => $question, 
                     'errorCodes' => $errors, 
                     'leads' => $leads,
-                    'texts' => $fillerText
+                    'texts' => $fillerText,
+                    'randNums' => $randomNumbers
                 ]);
             }
         }

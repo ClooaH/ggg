@@ -15,7 +15,9 @@
                     @endif
                 </div>
             </div>
-            <p>{{ $texts }}</p>
+            @foreach ($randNums as $randNum)
+                <p>{{ $texts[$randNum]->body }}</p>
+            @endforeach
             @foreach ($leads as $lead)
   
                 <p>{{ $lead }}</p>
@@ -37,4 +39,5 @@
             </form>
         </div>
     </div>
+    <script src="/js/test.js"></script>
 </x-app-layout>
