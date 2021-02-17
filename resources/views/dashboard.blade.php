@@ -15,12 +15,9 @@
                     @endif
                 </div>
             </div>
-            @foreach ($randNums as $randNum)
-                <p>{{ $texts[$randNum]->body }}</p>
-            @endforeach
             @foreach ($leads as $lead)
-  
-                <p>{{ $lead }}</p>
+                <p>{{ $texts[mt_rand(0, 4)]->body }}</p>
+                <p>"{{ $lead }}"</p>
             @endforeach
 
             @if ($errorCodes ?? '')
