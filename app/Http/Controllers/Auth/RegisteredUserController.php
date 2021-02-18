@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use App\Http\Requests\Auth\LoginRequest;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\Request;
@@ -32,6 +33,14 @@ class RegisteredUserController extends Controller
      */
     public function store(Request $request)
     {
+        $names = User::all()->pluck('name');
+
+        foreach($names as $name) {
+            if($name == $request->name) {
+                return redirect('login');
+            }
+        }
+
         $request->validate([
             'name' => 'required|string|max:255'
         ]);
@@ -42,7 +51,6 @@ class RegisteredUserController extends Controller
         ]));
 
         event(new Registered($user));
-
         return redirect(RouteServiceProvider::HOME);
     }
 }
