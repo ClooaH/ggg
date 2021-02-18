@@ -15,11 +15,19 @@
                     @endif
                 </div>
             </div>
+            @foreach ($leads as $lead)
+                <p>{{ $texts[mt_rand(0, 4)]->body }}</p>
+                <p>"{{ $lead }}"</p>
+            @endforeach
+
             @if ($errorCodes ?? '')
                 @foreach ($errorCodes as $error)
                     <p>{{ $error }}</p>
                 @endforeach
             @endif
+
+
+
             <form action="/dashboard" method="POST">
                 @csrf
                 <input type="hidden" name="question_id" id="question_id" value="{{ $question->id }}">
@@ -28,4 +36,5 @@
             </form>
         </div>
     </div>
+    <script src="/js/test.js"></script>
 </x-app-layout>
